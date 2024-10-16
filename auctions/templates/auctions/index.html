@@ -1,0 +1,49 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block body %} 
+
+  {% if category %}
+      <h3>{{ category }}</h3>
+  {% else %}
+      <h3>Active Listings</h3>
+  {% endif%} 
+  
+  {% if not user.is_authenticated %}
+      <p class="alert alert-warning">Log in to add a Listing.</p>
+  {% endif %}
+
+  <!-- Display all active listing or Display active listing on specific category -->
+  <div class="row">
+    {% for list in lists %}
+      <div class="col-lg-3 col-md-4 col-sm-6 my-3">
+        <div class="card h-100 shadow-sm">
+          <a href="{% url 'listings' list.id %}">
+            {% if list.id < 24  %}
+                <img src="{% static 'auctions/images/' %}{{ list.id }}.png"  class="card-img-top" alt="{{ list.item_name }}">
+            {% elif list.image_url %}
+                <img src="{{ list.image_url }}" class="card-img-top" alt="{{ list.item_name }}">
+            {% else %}
+                <img src="{% static 'auctions/images/default-image.png' %}" class="card-img-top" alt="{{ list.item_name }}">
+            {% endif %}
+          </a>
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="{% url 'listings' list.id %}">
+                {{ list.item_name }}
+              </a>
+            </h5>
+            <p class="card-text">
+              ${{ list.starting_bid|intcomma  }}<br />
+              <small>Created: {{ list.date_created|date:"F j, Y" }}</small>
+            </p>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="alert alert-info ml-5">No listings available.</div>
+    {% endfor %}
+  </div>
+    
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "auctions/layout.html" %}
+{% load humanize %}
+
+{% block body %}
+
+    <!-- Display items in user's watchlist -->
+
+    <div class="li-group">
+        <h3 class="mb-4">My Watchlist</h3>
+        {% if watchlists %}
+            {% for watchlist in watchlists %}
+                <a href="{% url 'listings' watchlist.id %}">
+                    {{ watchlist.item_name }} - ${{ watchlist.starting_bid|intcomma }}
+                </a>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-info">
+                Your watchlist is currently empty. Start adding items to keep track of them!
+            </div>
+        {% endif %}
+    </div>
+   
+{% endblock %}

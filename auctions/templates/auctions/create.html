@@ -1,0 +1,43 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 li-form">
+                <h3 class="mb-4 text-center">Add Listing</h3>
+                <form action="{% url 'create' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="item_name">Item name</label>
+                        <input class="form-control form-control-lg" type="text" id="item_name" name="item_name" placeholder="Enter item name" autofocus required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control form-control-lg" id="description" name="description" placeholder="Enter a detailed description (optional)" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="starting_bid">Starting bid ($)</label>
+                        <input class="form-control form-control-lg" type="number" id="starting_bid" name="starting_bid" placeholder="Enter starting bid amount" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="image_url">Image URL</label>
+                        <input class="form-control form-control-lg" type="url" id="image_url" name="image_url" placeholder="Enter image URL (optional)">
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select class="form-control form-control-lg" id="category" name="category" required>
+                            <option value="" disabled selected>Select a category</option>
+                            {% for category in categories %}
+                                <option value="{{ category }}">{{ category }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <input type="hidden" name="owner" value="{{ request.user }}">
+                    <button class="btn btn-primary btn-lg mt-3 w-100" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

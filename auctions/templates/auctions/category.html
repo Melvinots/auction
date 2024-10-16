@@ -1,0 +1,16 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <!-- Display list of all categories -->
+    
+    <div class="cat-group">
+        <h3 class="mb-4">Categories</h3>
+        {% for category in categories %}
+            <a href="{% url 'active_listing' category.category %}">
+                {{ category.category }}
+            </a>
+        {% endfor %}
+    </div>
+
+{% endblock %}
